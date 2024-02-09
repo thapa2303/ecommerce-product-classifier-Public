@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Categorizer</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100">
+  <div class="max-w-[1200px] mx-auto  px-10 ">
+
+    <header class="bg-gray-300 shadow-xl  ">
+      <h1 class="text-center text-4xl font-bold py-6">Categorizer</h1>
+    </header>
+
+    <main class="bg-white pb-10  pt-8 mx-auto  ">
+      <form class="max-w-[500px] mx-auto px-8 h-[60vh]">
+        <div class="my-4">
+          <label class="block text-[20px] py-2 font-medium" for="name">Name:</label>
+          <input id="name" class="w-full py-2  indent-5 border-2 border-black rounded-md block outline-none text-[18px]"
+            type="text" placeholder="Product Name">
+        </div>
+        <div class="my-4">
+          <label class="block text-[20px] py-2 font-medium" for="name">Price:</label>
+          <input id="price"
+            class="w-full py-2  indent-5 border-2 border-black rounded-md block outline-none text-[18px]" type="number"
+            placeholder="Product price eg:30000">
+        </div>
+        <div>
+          <label class="block text-[20px] py-1 font-medium " for="desc">Description:</label>
+          <textarea id="desc" class="border-black border-2 px-4 outline-none indent-4 py-1 text-[18px] rounded-md"
+            name="desc" id="desc" cols="43" rows="5" placeholder="product description"></textarea>
+        </div>
+        <button onclick="getCategory(event)"
+          class="block text-center bg-red-200 text-center mx-auto text-black px-8 rounded-sm text-xl shadow-xl font-semibold mt-5 py-3 "
+          type="submit">Categorize</button>
+      </form>
+      <h1 class="text-center text-[24px] font-bold">Main Cateogry:</h1>
+      {% for sublist in categories %}
+      {% for item in sublist %}
+      <p class="text-center text-[20px] pb-3"> <span class="text-red-500 text-[28px]">"</span> {{ item }} <span
+          class="text-red-500 text-[28px]">"</span></p>
+      {% endfor %}
+      {% endfor %}
+      <!-- <h1>{{ categories }}</h1> -->
+      {% for item in brand %}
+      <h1 class="text-center text-[20px] mt-3 font-semibold">Product brand: <span class="block text-[20px] font-medium">
+          "
+          {{item}}
+          "</span></h1>
+      {% endfor %}
+      <h2 class="text-[22px] font-semibold px-10 py-3  mt-3  ">Price Ranges:</h2>
+      <div class="flex justify-between items-center gap-8 px-16 w-[100%] flex-wrap pb-20">
+        {% for key, values in quantiles.items %}
+        <div class="w-[16%] bg-gray-200 h-[100px]  flex flex-col justify-center items-center ">
+          {% if key == 'this' %}
+          <p class="text-[18px] text-center">With In:</p>
+          <p class="text-[20px] font-semibold">" {{values}} "</p>
+          {% else %}
+          {% if key == 'first' %}
+          <p class="text-[18px]">20th percentile</p>
+          {% elif key == 'second' %}
+          <p class="text-[18px]">40th percentile</p>
+          {% elif key == 'third' %}
+          <p class="text-[18px]">60th percentile</p>
+          {% elif key == 'fourth' %}
+          <p class="text-[18px]">80th percentile</p>
+          {% else %}
+          <p class="text-[18px]">100th percentile</p>
+          {% endif %}
+          <p class="text-[16px] font-semibold ">{{values}}</p>
+          {% endif %}
+        </div>
+        {% endfor %}
+      </div>
+
+
+
+    </main>
+
+  </div>
+
+  <script>
+    const name = document.getElementById( 'name' );
+    const desc = document.getElementById( 'desc' );
+    const price = document.getElementById( 'price' );
+    async function getCategory ( e )
+    {
+
+      e.preventDefault();
+      document.location.href = `http://localhost:8000/?name=${ name.value }&description=${ desc.value }&price=${ price.value }`;
+
+    }
+  </script>
+
+</body>
+
+</html>
